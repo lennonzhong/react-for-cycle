@@ -25,7 +25,7 @@ class Routers extends Component {
                     <Route path="/" render={()=>{
                         return <Admin>
                                     <Switch>
-                                        <Route path="/home" component={Home}></Route>
+                                        <Route path="/" exact component={Home}></Route>
                                         <Route path="/ui/buttons" component={Buttons}></Route>
                                         <Route path="/ui/modals" component={Modals}></Route>
                                         <Route path="/ui/messages" component={MessageComponent}></Route>
