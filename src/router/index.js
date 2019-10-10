@@ -9,6 +9,7 @@ import Modals from '../components/ui/modal';
 import MessageComponent from '../components/ui/message'
 import Gallary from '../components/ui/gallery';
 import Carousel from '../components/ui/carousel';
+import LoginForm from '../components/form/login';
 class Routers extends Component {
     constructor(props) {
         super(props);
@@ -31,6 +32,7 @@ class Routers extends Component {
                                         <Route path="/ui/messages" component={MessageComponent}></Route>
                                         <Route path="/ui/gallery" component={Gallary}></Route>
                                         <Route path="/ui/carousel" component={Carousel}></Route>
+                                        <Route path="/form/login" component={LoginForm}></Route>
                                         <Route component={NoMatch}></Route>
                                     </Switch>
                                 </Admin>
