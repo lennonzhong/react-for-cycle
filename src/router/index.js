@@ -9,7 +9,8 @@ import Modals from '../components/ui/modal';
 import MessageComponent from '../components/ui/message'
 import Gallary from '../components/ui/gallery';
 import Carousel from '../components/ui/carousel';
-import LoginForm from '../components/form/login';
+import LoginForm from '../components/form/login'; 
+import RegisterForm from '../components/form/register'; // RegisterForm
 class Routers extends Component {
     constructor(props) {
         super(props);
@@ -27,12 +28,13 @@ class Routers extends Component {
                         return <Admin>
                                     <Switch>
                                         <Route path="/" exact component={Home}></Route>
-                                        <Route path="/ui/buttons" component={Buttons}></Route>
-                                        <Route path="/ui/modals" component={Modals}></Route>
-                                        <Route path="/ui/messages" component={MessageComponent}></Route>
+                                        <Route path="/ui/buttons" exact component={Buttons}></Route>
+                                        <Route path="/ui/modals" exact component={Modals}></Route>
+                                        <Route path="/ui/messages" exact component={MessageComponent}></Route>
                                         <Route path="/ui/gallery" component={Gallary}></Route>
                                         <Route path="/ui/carousel" component={Carousel}></Route>
                                         <Route path="/form/login" component={LoginForm}></Route>
+                                        <Route path="/form/reg" component={RegisterForm}></Route>
                                         <Route component={NoMatch}></Route>
                                     </Switch>
                                 </Admin>
