@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Form, Button,Select, Input, Card } from 'antd';
+import {Form, Button,Select, Input, Card,Table } from 'antd';
 const FormItem = Form.Item;
 export default class City extends Component{
     constructor(props) {
@@ -45,11 +45,36 @@ export default class City extends Component{
                     title: '操作人',
                     dataIndex: 'sys_user_name'
                 }
-            ]
+            ],
+            tableData: [],
+            pagination: {
+                showSizeChanger: true,
+                page: 1,
+                total: 50,
+                defaultPageSize: 10,
+                pageSize: 10,
+                pageSizeOptions: [
+                    '10', '20', '30', '40'
+                ],
+                position: 'bottom',
+                onChange: this.pageChange.bind(this)
+            }
         }
     }
     componentDidMount() {
         
+    }
+
+    pageChange(page, pageSize) {
+        this.setState({
+            pagination: {
+                page: page,
+                pageSize: pageSize
+            }
+        })
+
+
+        console.log(this.state.pagination)
     }
 
     render() {
@@ -57,6 +82,10 @@ export default class City extends Component{
             <div>
                 <Card>
                     <FilterForm></FilterForm>
+                </Card>
+
+                <Card title="城市管理" style={{marginTop: 20}}>
+                    <Table columns={this.state.columns} dataSource={this.state.tableData} pagination={this.state.pagination}></Table>
                 </Card>
             </div>
         )
