@@ -12,6 +12,7 @@ import Carousel from '../components/ui/carousel';
 import LoginForm from '../components/form/login'; 
 import RegisterForm from '../components/form/register'; // RegisterForm
 import BasicTable from "../components/table/basic"
+import HeightTable from "../components/table/hightTable"
 class Routers extends Component {
     constructor(props) {
         super(props);
@@ -37,6 +38,7 @@ class Routers extends Component {
                                         <Route path="/form/login" component={LoginForm}></Route>
                                         <Route path="/form/reg" component={RegisterForm}></Route>
                                         <Route path="/table/basic" component={BasicTable}></Route>
+                                        <Route path="/table/high" component={HeightTable}></Route>
                                         <Route component={NoMatch}></Route>
                                     </Switch>
                                 </Admin>
