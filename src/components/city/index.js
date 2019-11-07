@@ -57,7 +57,8 @@ export default class City extends Component{
                     '10', '20', '30', '40'
                 ],
                 position: 'bottom',
-                onChange: this.pageChange.bind(this)
+                onChange: this.pageChange.bind(this),
+                onShowSizeChange: this.onShowSizeChange
             }
         }
     }
@@ -65,16 +66,26 @@ export default class City extends Component{
         
     }
 
-    pageChange(page, pageSize) {
+    onShowSizeChange=(current, size)=>{
+        let temp = this.state.pagination;
+        var obj = Object.assign({}, temp, {
+            page:current,
+            pageSize:size
+        });
         this.setState({
-            pagination: {
-                page: page,
-                pageSize: pageSize
-            }
+            pagination: obj
         })
+    }
 
-
-        console.log(this.state.pagination)
+    pageChange(page, pageSize) {
+        let temp = this.state.pagination;
+        var obj = Object.assign({}, temp, {
+            page,
+            pageSize
+        });
+        this.setState({
+            pagination: obj
+        })
     }
 
     render() {
