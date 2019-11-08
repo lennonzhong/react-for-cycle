@@ -95,6 +95,10 @@ export default class City extends Component{
                     <FilterForm></FilterForm>
                 </Card>
 
+                <Card>
+                    <Button>开通城市</Button>
+                </Card>
+
                 <Card title="城市管理" style={{marginTop: 20}}>
                     <Table columns={this.state.columns} dataSource={this.state.tableData} pagination={this.state.pagination}></Table>
                 </Card>
