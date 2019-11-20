@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom';
 import './nav.less';
 import treeData from './../../config';
 import { Menu } from 'antd';
+import {connect} from 'react-redux';
+import {changeTitle} from './../../redux/creator/index';
 const { SubMenu } = Menu;
 class NavLeft extends Component {
     constructor(props) {
@@ -26,6 +28,7 @@ class NavLeft extends Component {
     }
 
     renderMenu = (data) => {
+        let that = this;
         return data.map((node)=>{
             // 这是有子菜单的
             if(node.children){
@@ -36,7 +39,9 @@ class NavLeft extends Component {
 
             // 这是直接返回的
             return (
-                <Menu.Item key={node.key}>
+                <Menu.Item key={node.key} onClick={()=>{
+                    this.props.title(node.title);
+                }}>
                     <Link to={node.key}>{node.title}</Link> 
                 </Menu.Item> 
             )
@@ -50,14 +55,21 @@ class NavLeft extends Component {
                     <h3>React Admin</h3>
                 </div>
                 <div className="nav-tree">
-                    <Menu  mode="inline" theme='dark'
-               inlineCollapsed={this.state.collapsed}>
-                   {this.state.treeNode}
-               </Menu>
+                    <Menu  mode="inline" theme='dark' inlineCollapsed={this.state.collapsed}>
+                        {this.state.treeNode}
+                    </Menu>
                 </div>
             </div>
         );
     }
 }
 
-export default NavLeft;
+const mapDispatchtoProp = (dispatch) =>{
+    return {
+        title(title) {
+            let action = changeTitle(title);
+            dispatch(action);
+        } 
+    }
+}
+export default connect(null, mapDispatchtoProp)(NavLeft);

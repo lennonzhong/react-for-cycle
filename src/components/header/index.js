@@ -3,6 +3,8 @@ import { Row, Col } from "antd";
 import Utils from "./../../utils/utils";
 import Axios from "./../../utils/axios";
 import './header.less';
+
+import {connect} from "react-redux";
 class Header extends Component {
     constructor(props) {
         super(props);
@@ -44,7 +46,7 @@ class Header extends Component {
                 </Row>
                 <Row className="breadcrumb">
                     <Col span={4} className="breadcrumb-brand">
-                        首页
+                        {this.props.title}
                     </Col>
                     <Col span={20} className="breadcrumb-info">
                         <span className="date">{this.state.sysTime}</span>
@@ -58,5 +60,11 @@ class Header extends Component {
 
     }
 }
- 
-export default Header;
+
+const mapStateToProps =(state)=>{
+    return {
+        title: state.titleReducer.menu_title
+    }
+}
+
+export default connect(mapStateToProps)(Header);
