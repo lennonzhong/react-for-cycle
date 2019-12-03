@@ -10,6 +10,9 @@ const width = Dimension.get('window').width;
 const height = Dimension.get('window').height;
 
 
+const scaleWidthRatio = width/DesignWidth;
+const scaleHeightRatio = width/DesignWidth;
+
 const scaleRatio = width/DesignWidth;
 
 // 状态栏的高度
@@ -19,13 +22,13 @@ export const statusBarHeight = getStatusBarHeight();
 const FontScaleRatio = pixelRatio.getFontScale();
 
 export function px(size){
-    // 
     if (PixelRatio.get() >= 3 && Platform.Os === 'ios' && size === 1) {
         return size;
     } else{
         return scaleRatio*size;
     }
 }
+
 
 export const px2dp = px => PixelRatio.roundToNearestPixel(px);
 export const dp2px = dp => PixelRatio.getPixelSizeForLayoutSize(dp);
