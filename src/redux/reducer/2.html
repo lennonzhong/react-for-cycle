@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>音乐可视化</title>
+    <style>
+        audio{
+            visibility: hidden;
+            display: none;
+        }
+        *{
+            margin: 0;padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <audio id="audio" controls="false" src="http://192.168.140.16:8080/1.mp3" crossOrigin="anonymous"></audio>
+</body>
+</html>
+<script>
+    window.onclick = function() {
+        var audio = document.getElementById('audio');
+        audio.play();
+
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+
+        var client_width = document.body.clientWidth;
+        var client_height = window.innerHeight;
+        canvas.width = client_width;
+        canvas.height = client_height;
+
+        // 先获取音乐的东西，然后在渲染可视化
+        // 第一步 创建audioContext
+        var AudioAllContext = window.AudioContext || window.webkitAudioContext;
+        var audioContext = new AudioAllContext();
+        // 获取analsis
+        var analysis = audioContext.createAnalyser();
+        // 设置获取的范围
+        analysis.fftSize = 512;
+
+        // 获取来源
+        var source = audioContext.createMediaElementSource(audio);
+
+        // 将分析器与来源绑定，然后分析器输出到播放设备
+        source.connect(analysis)
+        analysis.connect(audioContext.destination);
+
+        var bufferLength = analysis.frequencyBinCount;//频率
+        // console.log(bufferLength); // 即为
+        var dataBuffer = new Uint8Array(bufferLength);
+
+        // 首先清楚画布
+        ctx.clearRect(0, 0, client_width, client_height);
+
+        function draw() {
+            requestAnimationFrame(function() {
+                ctx.clearRect(0, 0, client_width, client_height);
+
+                // 获取到数据绑定到dataBuffer
+                analysis.getByteFrequencyData(dataBuffer); // 没此获取一个新的dataArray
+                // 开始渲染
+
+                // 每个bar的宽度
+                var barWidth = (client_width / bufferLength)*1.2;
+                var barHeight;
+                let x = 0;
+
+                for(let i = 0; i < bufferLength;i++){
+                    barHeight = dataBuffer[i]+100;
+                    var r = barHeight-100 + 25 * (i / bufferLength);
+                    var g = 250 * (i / bufferLength);
+                    var b = 50;
+                    ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+
+                    ctx.fillRect(x,client_height-barHeight/2,barWidth,barHeight/2);
+                    x += barWidth + 1;
+                }
+
+                draw();
+            })
+        }
+        draw();
+    }
+
+
+    /***
+     * 
+     * 214, 228, 232, 223, 213, 214, 209, 
+     * 209, 201, 190, 169, 153, 146, 139,
+     *  126, 127, 141, 138, 118, 125, 130, 
+     * 114, 110, 127, 115, 106, 98, 96, 91, 87, 
+     * 100, 82, 100, 111, 101, 71, 71, 76, 78, 84, 8
+     * 4, 80, 71, 85, 79, 56, 66, 68, 57, 55, 58, 60, 63, 
+     * 49, 57, 57, 44, 31, 34, 45, 42, 43, 47, 43, 43, 55, 
+     * 61, 51, 34, 42, 46, 35, 48, 58, 52, 35, 33, 28, 49, 4
+     * 7, 46, 45, 43, 35, 52, 58, 47, 32, 39, 51, 52, 41, 48
+     * , 48, 54, 41, 34, 44, 48, 50, …]
+     */
+</script>
